@@ -1,0 +1,54 @@
+{
+    "name": "chriscrawford1/laravel-trivia",
+    "description": "A Wrapper around the Open Trivia Database API",
+    "keywords": [
+        "chriscrawford1",
+        "laravel-trivia"
+    ],
+    "homepage": "https://github.com/chriscrawford1/laravel-trivia",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Christopher Crawford",
+            "email": "christopher.crawford1@outlook.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.3",
+        "illuminate/support": "5.8.*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "3.8.*",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Chriscrawford1\\LaravelTrivia\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Chriscrawford1\\LaravelTrivia\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Chriscrawford1\\LaravelTrivia\\LaravelTriviaServiceProvider"
+            ],
+            "aliases": {
+                "LaravelTrivia": "Chriscrawford1\\LaravelTrivia\\LaravelTriviaFacade"
+            }
+        }
+    }
+}
