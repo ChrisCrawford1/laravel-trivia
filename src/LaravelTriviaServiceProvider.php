@@ -2,20 +2,10 @@
 
 namespace Chriscrawford1\LaravelTrivia;
 
-use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
-use ChrisCrawford1\LaravelTrivia\Contracts\LaravelTrivia;
 
 class LaravelTriviaServiceProvider extends ServiceProvider
 {
-    /**
-     * @var array
-     */
-    protected $defaultHeaders = [
-        'Accept' => 'application/json',
-        'Content-Type' => 'application/json'
-    ];
-
     /**
      * Bootstrap the application services.
      */
@@ -35,15 +25,7 @@ class LaravelTriviaServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $clientConfig = array_merge(['base_url' => 'https://opentdb.com/api.php'], $this->defaultHeaders);
-
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laravel-trivia');
-
-        $this->app->bind(LaravelTrivia::class, function () use($clientConfig) {
-            $guzzleClient = new Client($clientConfig);
-
-            return new TriviaClient($guzzleClient);
-        });
     }
 }
