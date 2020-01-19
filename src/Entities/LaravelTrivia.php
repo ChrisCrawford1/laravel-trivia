@@ -2,9 +2,10 @@
 
 namespace ChrisCrawford1\LaravelTrivia\Entities;
 
+use ChrisCrawford1\LaravelTrivia\Contracts\LaravelTrivia as LaravelTriviaContract;
 use ChrisCrawford1\LaravelTrivia\Exceptions\InvalidDataException;
-use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Support\Collection;
 
 class LaravelTrivia
 {
@@ -19,32 +20,30 @@ class LaravelTrivia
     private $difficulty = 'medium';
 
     /**
-     * @var Client
+     * @var LaravelTriviaContract
      */
     private $client;
 
     /**
      * LaravelTrivia constructor.
+     * @param LaravelTriviaContract $client
      */
-    public function __construct()
+    public function __construct(LaravelTriviaContract $client)
     {
-        $this->client = new Client([
-            'base_uri' => 'https://opentdb.com/api.php'
-        ]);
+        $this->client = $client;
     }
 
     /**
-     * @return array
+     * @return Collection
      *
      * @throws InvalidDataException
      */
-    public function get(): array
+    public function get(): Collection
     {
         $request = new Request('GET', $this->buildQueryString());
-
         $response = $this->client->send($request);
 
-        return json_decode($response->getBody()->getContents(), true);
+        return collect(json_decode($response->getBody()->getContents(), true));
     }
 
     /**
