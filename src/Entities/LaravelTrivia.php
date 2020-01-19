@@ -2,7 +2,7 @@
 
 namespace ChrisCrawford1\LaravelTrivia\Entities;
 
-use ChrisCrawford1\LaravelTrivia\InvalidDataException;
+use ChrisCrawford1\LaravelTrivia\Exceptions\InvalidDataException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 

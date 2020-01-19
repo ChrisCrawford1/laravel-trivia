@@ -1,6 +1,6 @@
 <?php
 
-namespace ChrisCrawford1\LaravelTrivia;
+namespace ChrisCrawford1\LaravelTrivia\Exceptions;
 
 use \Exception;
 
