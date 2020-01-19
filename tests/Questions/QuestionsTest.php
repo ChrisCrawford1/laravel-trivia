@@ -3,6 +3,7 @@
 namespace ChrisCrawford1\LaravelTrivia\Tests\Questions;
 
 use ChrisCrawford1\LaravelTrivia\Entities\LaravelTrivia;
+use ChrisCrawford1\LaravelTrivia\Exceptions\InvalidDataException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -71,5 +72,43 @@ class QuestionsTest extends TestCase
     {
         $questions = new LaravelTrivia($this->triviaClient);
         $this->assertEquals('medium', $questions->getDifficulty());
+    }
+
+    /** @test */
+    public function it_can_override_the_default_questions_quantity_with_a_setter()
+    {
+        $questions = new LaravelTrivia($this->triviaClient);
+        $questions->setNoOfQuestions(30);
+
+        $this->assertEquals(30, $questions->getNoOfQuestions());
+        $this->assertNotEquals(10, $questions->getNoOfQuestions());
+    }
+
+    /** @test */
+    public function it_can_override_the_default_questions_difficulty_with_a_setter()
+    {
+        $questions = new LaravelTrivia($this->triviaClient);
+        $questions->setDifficulty('hard');
+
+        $this->assertEquals('hard', $questions->getDifficulty());
+        $this->assertNotEquals('medium', $questions->getDifficulty());
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_if_question_quantity_is_greater_than_50()
+    {
+        $questions = new LaravelTrivia($this->triviaClient);
+        $this->expectException(InvalidDataException::class);
+        $questions->setNoOfQuestions(10000);
+        $questions->get();
+    }
+
+    /** @test */
+    public function it_will_throw_an_exception_if_the_question_difficulty_is_invalid()
+    {
+        $questions = new LaravelTrivia($this->triviaClient);
+        $this->expectException(InvalidDataException::class);
+        $questions->setDifficulty('crazy');
+        $questions->get();
     }
 }

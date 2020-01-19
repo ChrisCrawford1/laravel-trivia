@@ -20,6 +20,11 @@ class LaravelTrivia
     private $difficulty = 'medium';
 
     /**
+     * @var array
+     */
+    private $allowedDifficulties = ['easy', 'medium', 'hard'];
+
+    /**
      * @var LaravelTriviaContract
      */
     private $client;
@@ -57,6 +62,13 @@ class LaravelTrivia
             throw new InvalidDataException(
                 'You cannot request more than 50 questions at a time.',
                 422
+            );
+        }
+
+        if (! in_array($this->getDifficulty(), $this->allowedDifficulties)) {
+            throw new InvalidDataException(
+                "{$this->getDifficulty()} is not an allowed difficulty type.",
+                '422'
             );
         }
 
@@ -99,7 +111,7 @@ class LaravelTrivia
      */
     public function setDifficulty(string $difficulty): self
     {
-        $this->difficulty = $difficulty;
+        $this->difficulty = strtolower($difficulty);
 
         return $this;
     }
