@@ -5,6 +5,7 @@ namespace ChrisCrawford1\LaravelTrivia\Entities;
 use ChrisCrawford1\LaravelTrivia\Contracts\LaravelTrivia as LaravelTriviaContract;
 use ChrisCrawford1\LaravelTrivia\Exceptions\InvalidDataException;
 use GuzzleHttp\Psr7\Request;
+use Illuminate\Config\Repository;
 use Illuminate\Support\Collection;
 
 class LaravelTrivia
@@ -30,12 +31,24 @@ class LaravelTrivia
     private $client;
 
     /**
+     * @var TriviaSession
+     */
+    private $session;
+
+    /**
+     * @var Repository
+     */
+    private $config;
+
+    /**
      * LaravelTrivia constructor.
      * @param LaravelTriviaContract $client
      */
     public function __construct(LaravelTriviaContract $client)
     {
         $this->client = $client;
+        $this->session = new TriviaSession();
+        $this->config = config('laravel-trivia');
     }
 
     /**
@@ -72,7 +85,14 @@ class LaravelTrivia
             );
         }
 
-        return "?amount={$this->getNoOfQuestions()}&difficulty={$this->getDifficulty()}";
+        $queryString = "?amount={$this->getNoOfQuestions()}&difficulty={$this->getDifficulty()}";
+
+        if ($this->config['using_session_token']) {
+            $queryString .= "&token={$this->getSessionKey()}";
+            return $queryString;
+        }
+
+        return $queryString;
     }
 
     /**
@@ -82,7 +102,6 @@ class LaravelTrivia
     {
         return $this->noOfQuestions;
     }
-
 
     /**
      * @param int $noOfQuestions
@@ -114,5 +133,13 @@ class LaravelTrivia
         $this->difficulty = strtolower($difficulty);
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSessionKey(): string
+    {
+        return $this->session->getSessionKey();
     }
 }
