@@ -9,12 +9,12 @@ use GuzzleHttp\Psr7\Request;
 class LaravelTrivia
 {
     /**
-     * @var int
+     * @var int - max is 50
      */
     private $noOfQuestions = 10;
 
     /**
-     * @var string
+     * @var string - Easy, Medium, Hard
      */
     private $difficulty = 'medium';
 
