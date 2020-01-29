@@ -27,12 +27,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Chriscrawford1\\LaravelTrivia\\": "src"
+            "ChrisCrawford1\\LaravelTrivia\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Chriscrawford1\\LaravelTrivia\\Tests\\": "tests"
+            "ChrisCrawford1\\LaravelTrivia\\": "src/",
+            "ChrisCrawford1\\LaravelTrivia\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -46,10 +47,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Chriscrawford1\\LaravelTrivia\\LaravelTriviaServiceProvider"
+                "ChrisCrawford1\\LaravelTrivia\\LaravelTriviaServiceProvider"
             ],
             "aliases": {
-                "LaravelTrivia": "Chriscrawford1\\LaravelTrivia\\LaravelTriviaFacade"
+                "LaravelTrivia": "ChrisCrawford1\\LaravelTrivia\\LaravelTriviaFacade"
             }
         }
     }
